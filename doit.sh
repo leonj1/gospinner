@@ -6,5 +6,5 @@ if [ ! -f input.txt ]; then
 fi
 
 # Unit test showing where things fail
-go test -run TestCallingSetMessageLotsOfTimes
+go test -run TestCallingSetMessageLotsOfTimes -timeout 120m
 
