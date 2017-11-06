@@ -6,6 +6,11 @@ import (
 	"strings"
 	"testing"
 	"time"
+	"github.com/slok/gospinner"
+	"fmt"
+	"os"
+	"log"
+	"bufio"
 )
 
 func TestCorrectCreation(t *testing.T) {
@@ -164,6 +169,26 @@ func TestSetMessage(t *testing.T) {
 		}
 	}
 }
+
+func TestCallingSetMessageLotsOfTimes(t *testing.T) {
+	s, _ := gospinner.NewSpinner(gospinner.Dots)
+
+	s.Start("Loading")
+	file, err := os.Open("./input.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+	s.Succeed()
+
+	s.Start("Testing")
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		s.SetMessage(fmt.Sprintf("Current word %s", scanner.Text()))
+	}
+	s.Succeed()
+}
+
 func TestStop(t *testing.T) {
 	var buf bytes.Buffer
 	s, _ := NewSpinnerNoColor(Ball)
